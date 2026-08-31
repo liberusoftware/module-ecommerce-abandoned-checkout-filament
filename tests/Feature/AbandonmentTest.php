@@ -11,12 +11,14 @@ use Liberu\Ecommerce\AbandonedCheckout\Filament\Resources\Abandonments\Abandonme
 use Liberu\Ecommerce\AbandonedCheckout\Filament\Resources\Abandonments\Pages\ListAbandonments;
 use Liberu\Ecommerce\AbandonedCheckout\Filament\Resources\Abandonments\Pages\ViewAbandonment;
 use Liberu\Ecommerce\AbandonedCheckout\Filament\Resources\Abandonments\RelationManagers\AttemptsRelationManager;
+use Liberu\Ecommerce\AbandonedCheckout\Filament\Resources\Campaigns\Pages\ListCampaigns;
 use Liberu\Ecommerce\AbandonedCheckout\Filament\Support\Render;
 use Liberu\Ecommerce\AbandonedCheckout\Filament\Support\Snapshot;
 use Liberu\Ecommerce\AbandonedCheckout\Filament\Tests\Fakes\FakeChannel;
 use Liberu\Ecommerce\AbandonedCheckout\Filament\Tests\TestTenant;
 use Liberu\Ecommerce\AbandonedCheckout\Models\Abandonment;
 use Liberu\Ecommerce\AbandonedCheckout\Models\Attempt;
+use Liberu\Ecommerce\AbandonedCheckout\Models\Campaign;
 use Livewire\Features\SupportTesting\Testable;
 use Livewire\Livewire;
 
@@ -237,21 +239,40 @@ it('shows what was observed and what was bought, and stops calling it silence', 
         ->assertTableColumnStateSet('heard', null, $attempt);
 });
 
-it('names both possibilities for a claim that was written and never settled', function (): void {
-    // `ListAttempts::silence()` branches on Refused alone, so it reports NotYet
-    // for a Pending attempt — which is the one thing `AttemptState::Pending`
-    // exists to say the module does not know.
+it('answers no way to know for a claim that was written and never settled', function (): void {
+    // The domain would report NotYet here: `ListAttempts::silence()` branches on
+    // Refused alone and so reads a Pending attempt as though the message had
+    // gone. All three surfaces refuse that answer identically.
     $abandonment = record();
     $campaign = campaign();
     bindEverything();
 
     $attempt = pendingAttempt($abandonment, $campaign);
 
-    attemptsTable($abandonment)->assertTableColumnStateSet(
-        'heard',
-        Render::unsettled(Silence::NotYet),
-        $attempt,
-    );
+    // The domain's own answer, and then the one the panel gives instead.
+    expect(Snapshot::description(TestTenant::PRIMARY, $abandonment->id, $attempt->id)?->silence)
+        ->toBe(Silence::NotYet);
+
+    attemptsTable($abandonment)->assertTableColumnStateSet('heard', Render::unsettled(), $attempt);
+});
+
+it('bounds every string it writes to the width the domain declared for the column', function (): void {
+    // Nothing in the domain guards a string against its own column width, and
+    // `Data\Condition`'s currency is unvalidated where `Data\Money`'s is. A form
+    // rule is the wrong place for either: it is reported as a domain gap, and
+    // bounded here because this panel is one of the things that writes them.
+    Livewire::test(ListCampaigns::class)
+        ->callAction('define', [
+            'name' => str_repeat('n', 129),
+            'channel_key' => str_repeat('k', 33),
+            'cap' => '3',
+            'quiet_minutes' => '60',
+            'delay_minutes' => '60',
+            'conditions' => [],
+        ])
+        ->assertHasActionErrors(['name', 'channel_key']);
+
+    expect(Campaign::query()->count())->toBe(0);
 });
 
 it('says a malformed amount cannot be read back rather than showing a figure it invented', function (): void {

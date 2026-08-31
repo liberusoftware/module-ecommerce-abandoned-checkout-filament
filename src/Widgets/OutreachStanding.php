@@ -91,7 +91,7 @@ class OutreachStanding extends StatsOverviewWidget
             $lines[] = [
                 'label' => 'Claims never settled',
                 'value' => (string) $unsettled,
-                'because' => 'each of these was claimed before a send and never settled, so whether the message went is not known — and the attempt list reads their silence as though it had',
+                'because' => 'each of these was claimed before a send and never settled, so whether the message went is not known and their silence says nothing either way — the domain reads it as though it had gone',
             ];
         }
 

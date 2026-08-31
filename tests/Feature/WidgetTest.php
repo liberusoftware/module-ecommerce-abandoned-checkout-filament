@@ -152,7 +152,7 @@ it('names a claim that was never settled as neither sent nor refused', function 
         ->and($lines[3])->toBe([
             'label' => 'Claims never settled',
             'value' => '1',
-            'because' => 'each of these was claimed before a send and never settled, so whether the message went is not known — and the attempt list reads their silence as though it had',
+            'because' => 'each of these was claimed before a send and never settled, so whether the message went is not known and their silence says nothing either way — the domain reads it as though it had gone',
         ]);
 });
 

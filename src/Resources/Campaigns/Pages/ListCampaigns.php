@@ -45,6 +45,11 @@ final class ListCampaigns extends ListRecords
                 ->modalDescription('This module carries no mail and no SMS. The channel key names a transport the host binds; with nothing bound, every attempt under this campaign is recorded as refused with a reason rather than quietly not made.')
                 ->modalSubmitActionLabel('Define it')
                 ->schema([
+                    // The two lengths mirror the columns the domain declares —
+                    // `name` is 128 and `channel_key` is 32 — because nothing in
+                    // the domain guards a string against its own column width.
+                    // A form rule is the wrong place for that and is reported as
+                    // a gap; the real fix is a length check in the value objects.
                     TextInput::make('name')
                         ->label('Name')
                         ->required()
@@ -95,6 +100,11 @@ final class ListCampaigns extends ListRecords
                                 ->numeric(),
                             TextInput::make('currency')
                                 ->label('Currency')
+                                // `Data\Money` validates its code and
+                                // `Data\Condition` does not, so a threshold in
+                                // a currency that is not one would simply never
+                                // match. Bounded here, and reported as a gap.
+                                ->alpha()
                                 ->maxLength(3)
                                 ->minLength(3)
                                 ->required(fn (Get $get): bool => $get('field') === ConditionField::CartValueMinor->value)

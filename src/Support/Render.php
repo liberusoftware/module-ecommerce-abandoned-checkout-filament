@@ -96,17 +96,19 @@ final class Render
     /**
      * A claim written before the send and never settled.
      *
-     * The domain reads its silence as though the message had gone —
-     * `ListAttempts::silence()` branches on `Refused` alone — and
-     * `AttemptState::Pending`'s own docblock says the module does not know
-     * whether it went. Both possibilities are named here rather than one being
-     * picked, which is the same answer wave 22 reached about a definition a run
-     * held neither a number nor a refusal for.
+     * `ListAttempts::silence()` branches on `Refused` alone, so it reads a
+     * `Pending` attempt as though the message had gone and can report `NotYet`
+     * for it — which is precisely what `AttemptState::Pending`'s own docblock
+     * says the module does not know. All three surfaces compensate the same way
+     * and answer "no way to know", because a silence following a message that
+     * may never have gone says nothing either way. The fix belongs one branch
+     * earlier in the domain.
      */
-    public static function unsettled(Silence $silence): string
+    public static function unsettled(): string
     {
-        return 'whether this went at all is not known: the claim was written before the send and never settled. '
-            .'Read as though it had gone, '.self::silence($silence);
+        return 'there is no way to know: the claim was written before the send and never settled, '
+            .'so whether the message went is unknown and its silence says nothing either way — '
+            .'though the domain reads it as though it had gone';
     }
 
     /**

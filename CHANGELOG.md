@@ -46,6 +46,7 @@ know*, the last being what a bound transport that reports nothing back actually 
 
 Reported rather than closed here. `docs/panel.md` §10 carries them in full: no published aggregate
 over attempts; `Seams::channel()` and `Seams::link()` raising rather than refusing on a class name the
-container cannot build; `Data\Condition` carrying a currency and no exponent; `total()` and
-`lineList()` able to raise while a column renders; `ListAttempts::silence()` collapsing `Pending`
-into `Sent`; and no published read for a single abandonment.
+container cannot build; `Data\Condition` carrying a currency and no exponent, and not validating the
+currency it does carry; `total()` and `lineList()` able to raise while a column renders;
+`ListAttempts::silence()` collapsing `Pending` into `Sent`; nothing guarding a string against its own
+column width; and no published read for a single abandonment.

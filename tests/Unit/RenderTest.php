@@ -129,14 +129,16 @@ it('says which of four things is at the end of a channel key', function (): void
         ->and(Render::channel(true, true))->toContain('the container cannot build it');
 });
 
-it('names both possibilities for a claim that was never settled', function (): void {
-    // `ListAttempts::silence()` branches on Refused alone, so it reads a Pending
-    // attempt as though the message had gone — which is the one thing
-    // `AttemptState::Pending` exists to say the module does not know.
-    $sentence = Render::unsettled(Silence::NotYet);
+it('answers no way to know for a claim that was never settled', function (): void {
+    // `ListAttempts::silence()` branches on Refused alone, so it can report
+    // NotYet for a Pending attempt — the one thing `AttemptState::Pending`
+    // exists to say the module does not know. All three surfaces compensate
+    // identically rather than each picking a different answer.
+    $sentence = Render::unsettled();
 
-    expect($sentence)->toContain('whether this went at all is not known')
-        ->and($sentence)->toContain(Render::silence(Silence::NotYet));
+    expect($sentence)->toStartWith('there is no way to know')
+        ->and($sentence)->toContain('never settled')
+        ->and($sentence)->not->toContain('yet —');
 });
 
 it('says a stored value cannot be read back rather than inventing one', function (): void {

@@ -104,10 +104,11 @@ final class AttemptsRelationManager extends RelationManager
     /**
      * Which kind of nothing, where nothing was observed.
      *
-     * A claim that was never settled gets both possibilities named rather than
-     * one picked: `ListAttempts::silence()` branches on `Refused` alone, so it
-     * reads a `Pending` attempt as though the message had gone, which is the one
-     * thing `AttemptState::Pending` exists to say the module does not know.
+     * A claim that was never settled answers "no way to know", whatever the
+     * domain returned: `ListAttempts::silence()` branches on `Refused` alone, so
+     * it reads a `Pending` attempt as though the message had gone, which is the
+     * one thing `AttemptState::Pending` exists to say the module does not know.
+     * All three surfaces compensate identically.
      */
     private static function heard(Attempt $record): ?string
     {
@@ -118,7 +119,7 @@ final class AttemptsRelationManager extends RelationManager
         }
 
         return $record->state === AttemptState::Pending
-            ? Render::unsettled($silence)
+            ? Render::unsettled()
             : Render::silence($silence);
     }
 

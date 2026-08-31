@@ -37,9 +37,10 @@ reports nothing back, and it is not the same as "no".
 **Where the domain cannot support the distinction.** `Queries\ListAttempts::silence()` branches on
 `AttemptState::Refused` alone, so a `Pending` attempt — a claim written before the send and never
 settled — is reported as `NotYet`. That is precisely the thing `AttemptState::Pending`'s own docblock
-says the module does not know. The panel does not pick one of the two: `Support\Render::unsettled()`
-names both, and `Widgets\OutreachStanding` counts unsettled claims on their own line rather than
-folding them into sent or refused. Filed as a gap below.
+says the module does not know. `Support\Render::unsettled()` answers **no way to know** instead, and
+says why; `Widgets\OutreachStanding` counts unsettled claims on their own line rather than folding
+them into sent or refused. The `-api` and `-livewire` surfaces compensate identically, so all three
+give one answer. The fix belongs one branch earlier in the domain and is recorded as a gap below.
 
 ## 4. Money
 
@@ -124,7 +125,15 @@ repository has no open issues — so they are described rather than cited.
    page. Every read of both goes through `AbandonmentResource::amount()`, `::items()` and `::lines()`,
    which render the fact that the value cannot be read back rather than a figure this screen invented.
 5. **`Queries\ListAttempts::silence()` collapses `Pending` into `Sent`** — see §3.
-6. **No published read for a single abandonment.** `ListDueAbandonments` returns only the due ones,
+6. **Nothing guards a string against its own column width.** `checkout_ref` is 128, `contact_ref`
+   is 191, `channel_key` is 32, `name` is 128, and no action or value object checks any of them, so
+   an over-long value is a database error on MySQL or a silent truncation depending on the mode —
+   neither of which the module can classify as a refusal. `Data\Condition`'s currency is likewise
+   unvalidated where `Data\Money`'s is. This panel writes `name`, `channel_key` and a condition's
+   currency, and bounds all three in the form schema. **That is not the fix**: a form rule binds one
+   caller, and the real check belongs in the value objects. This panel writes neither `checkout_ref`
+   nor `contact_ref` at all.
+7. **No published read for a single abandonment.** `ListDueAbandonments` returns only the due ones,
    so a merchant looking at an expired or stopped checkout cannot reach it through a query. The
    resource is model-bound, as a Filament resource is by construction, and states the tenant in
    `getEloquentQuery()`; no page here works around the gap by reaching past that.

@@ -143,7 +143,7 @@ final class Outreach extends Page
         if ($unsettled > 0) {
             // Neither sent nor refused, and read by the domain as though it had
             // gone. Named on its own rather than counted as either.
-            $lines[] = $unsettled.' attempts were claimed and never settled, so they are neither sent nor refused and whether they went is not known.';
+            $lines[] = $unsettled.' attempts were claimed and never settled, so they are neither sent nor refused, whether they went is not known, and their silence says nothing either way.';
         }
 
         return $lines;
