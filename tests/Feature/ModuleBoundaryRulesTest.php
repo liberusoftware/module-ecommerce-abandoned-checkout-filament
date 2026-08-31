@@ -273,9 +273,9 @@ it('reaches for no framework-foundation helper', function (): void {
 it('reads the clock and counts rows in one place, because the domain publishes no query for either', function (): void {
     // The domain answers `ListCampaigns`, `ListAttempts` and
     // `ListDueAbandonments` and nothing that aggregates attempts or counts
-    // abandonments — `ecommerce-abandoned-checkout#1`. Every count this panel
-    // needs and the one clock it reads live in `Support\Snapshot`, so the gap is
-    // one file wide and `docs/panel.md` records it.
+    // abandonments. Every count this panel needs and the one clock it reads live
+    // in `Support\Snapshot`, so the gap is one file wide and `docs/panel.md`
+    // records it.
     $clocks = [];
     $counts = [];
 

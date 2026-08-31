@@ -85,7 +85,7 @@ final class Snapshot
      * Keys whose configured binding the container could not build at all.
      *
      * `Seams::channel()` raises on a class name that does not resolve rather
-     * than refusing — `ecommerce-abandoned-checkout#2` — so without this every
+     * than refusing, so without this every
      * screen here would answer a typo in the host's config with a 500. A
      * misconfiguration is a third fact, not the unbound one.
      *
@@ -199,9 +199,9 @@ final class Snapshot
     /**
      * Why nothing has gone, counted by reason.
      *
-     * The domain publishes no aggregate over attempts, so this counts rows —
-     * `ecommerce-abandoned-checkout#1` — and does it in one place, with the
-     * tenant stated, rather than once per widget.
+     * The domain publishes no aggregate over attempts, so this counts rows, and
+     * does it in one place, with the tenant stated, rather than once per widget.
+     * The gap is recorded in `docs/panel.md`.
      *
      * @return array<string, int>
      */

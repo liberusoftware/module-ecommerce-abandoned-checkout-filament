@@ -258,7 +258,7 @@ it('says a malformed amount cannot be read back rather than showing a figure it 
     // `total()` and `lineList()` rebuild value objects lazily, so a row written
     // with a currency or a line the domain will not accept raises while a column
     // renders rather than when the query ran. A column that throws mid-render is
-    // a broken page — `ecommerce-abandoned-checkout#4`.
+    // a broken page.
     $abandonment = record();
     $abandonment->forceFill(['currency' => 'gb'])->save();
 

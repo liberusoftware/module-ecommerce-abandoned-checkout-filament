@@ -104,7 +104,8 @@ fault this module was extracted over. **The guards are dropped and the branches 
 
 ## 10. Gaps found in the domain package
 
-Reported rather than closed here, per §1.
+Reported rather than closed here, per §1. None of them has an issue number yet — the domain
+repository has no open issues — so they are described rather than cited.
 
 1. **No published aggregate over attempts, and no count of abandonments.** `Support\Snapshot`
    counts rows itself, with the tenant stated, in one file. Everything else on these screens comes

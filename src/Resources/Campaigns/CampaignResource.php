@@ -186,7 +186,6 @@ final class CampaignResource extends Resource
         // `Data\Condition` carries the currency and not the exponent — unlike
         // `Data\Money`, which carries both — so placing a decimal point here
         // would be this package inventing an exponent it was not given.
-        // Filed as `ecommerce-abandoned-checkout#3`.
         return array_map(
             static fn (Condition $condition): string => Render::fieldLabel($condition->field).' '
                 .Render::comparisonLabel($condition->operator).' '.$condition->value
