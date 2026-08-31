@@ -10,12 +10,35 @@
 ![PHP](https://img.shields.io/badge/PHP-8.5-777BB4?logo=php&logoColor=white) ![Laravel](https://img.shields.io/badge/Laravel-13-FF2D20?logo=laravel&logoColor=white) ![Filament](https://img.shields.io/badge/Filament-5-FDAE4B)
 [![Latest release](https://img.shields.io/github/v/release/liberusoftware/module-ecommerce-abandoned-checkout-filament?sort=semver)](https://github.com/liberusoftware/module-ecommerce-abandoned-checkout-filament/releases/latest) [![Tests](https://github.com/liberusoftware/module-ecommerce-abandoned-checkout-filament/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/liberusoftware/module-ecommerce-abandoned-checkout-filament/actions/workflows/tests.yml)
 
-## Features
+## What it presents
 
-- Fully compatible with **Laravel 13**, **PHP 8.5**, and **Pest 5**.
-- Built following the domain-driven design guidelines of the Liberu architecture.
-- Reusable, presenting a clean public contract and boundaries.
-- Adheres to the strict database, security, and authorization standards of Liberu.
+The operator's view of `liberusoftware/ecommerce-abandoned-checkout`: a checkout that was begun and
+not finished, the campaigns that decide whether to reach out about it, every attempt made, and what
+came of each.
+
+**The one fact that shaped it.** Every end of this pipeline is unattached until a host attaches it.
+Nothing carries a message and nothing builds the link a message would contain, so an action that
+needs an unbound seam records a refusal with a reason and returns. A merchant looking at this panel
+on a fresh install must see *why* nothing has been sent — `NoChannelBound` is the truthful answer and
+it is not an error. Every screen here renders the refusal; none of them renders an empty table that
+reads as "nothing to do".
+
+| Screen | What it answers |
+|---|---|
+| **Outreach** | Whether anything can go out at all: which seam is unbound, what has been recorded, what has been attempted, every refusal by reason, and whether a bound channel reports anything back |
+| **Abandonments** | What was left, as it was stored — never re-resolved against a catalogue that has since been repriced — with the state derived from one clock and the attempts against it |
+| **Campaigns** | When to reach out, through which key, how often at most, and under what conditions, with whether anything is bound to carry it |
+| **Outreach standing** (widget) | One line per seam and per refusal reason, so the cause is on the first screen rather than inferred from an absence |
+| **Due now** (widget) | The abandonments the domain says are eligible under a campaign at this instant — which is not a promise that anything will go |
+
+## What it does not own
+
+No business rule, no arithmetic, no transport, and no decision. Every write is a published domain
+action taking the tenant as its first argument. There is no create, edit or delete anywhere; no
+control that records an outcome, because an outcome is an observation and a button is not one; and
+no control that spans more than one merchant.
+
+`docs/panel.md` carries the decisions and the gaps found in the domain package.
 
 ## Requirements
 
