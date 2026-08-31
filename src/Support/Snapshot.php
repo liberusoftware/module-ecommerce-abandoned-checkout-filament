@@ -85,9 +85,10 @@ final class Snapshot
      * Keys whose configured binding the container could not build at all.
      *
      * `Seams::channel()` raises on a class name that does not resolve rather
-     * than refusing, so without this every
-     * screen here would answer a typo in the host's config with a 500. A
-     * misconfiguration is a third fact, not the unbound one.
+     * than refusing, so without this a typo in a host's config would be a 500 on
+     * every screen here. A misconfiguration is a third fact, not the unbound
+     * one, and telling an operator to bind something already bound is the wrong
+     * instruction.
      *
      * @return list<string>
      */
