@@ -1,0 +1,44 @@
+{
+    "name": "ecommerce-abandoned-checkout-filament",
+    "version": "0.1.0",
+    "description": "The operator's view of a checkout that was begun and not finished: what was in it, every attempt to reach out about it, and — on a fresh install, where nothing is bound — the reason nothing has gone.",
+    "category": "presentation",
+    "provider": "Liberu\\Ecommerce\\AbandonedCheckout\\Filament\\AbandonedCheckoutFilamentServiceProvider",
+    "requires": {
+        "packages": {
+            "liberusoftware/ecommerce-abandoned-checkout": "^0.1"
+        }
+    },
+    "presentation": {
+        "filament": {
+            "app": [
+                "Liberu\\Ecommerce\\AbandonedCheckout\\Filament\\AbandonedCheckoutPlugin"
+            ]
+        }
+    },
+    "features": [
+        "An attempt that did not go renders the refusal that stopped it, never an empty row: a fresh install where nothing is bound reads as the joint that is not attached rather than as nothing to do",
+        "All thirteen refusal reasons the domain publishes have a sentence, and a new one is a hole in a match rather than a blank on a screen",
+        "Nothing heard is rendered as three answers and not as a blank: not yet, never will, and no way to know, the last being what a bound channel that reports nothing back actually leaves behind",
+        "The outreach screen names which seam is unbound before an attempt refuses, so an operator sees the cause rather than inferring it from an absence",
+        "An amount is placed by the exponent the domain stores beside it, so 2500 GBP renders as 25.00 and 2500 JPY as 2500, and no screen hard-codes a currency or divides by a hundred",
+        "The state an abandonment has reached is derived and is shown as derived: there is no filter and no sort on it, because no column exists for the database to index",
+        "The stored half of that state, the stop reason, is the one thing filtered and sorted on, because it is a column",
+        "Every widget overrides canView and states the tenant in its own query, because a widget is the surface Filament's own tenancy does not reach and canView defaults to true",
+        "Both widgets are constructed by the suite and asserted through a public accessor returning structured rows, which is the test the host never had and the reason its store-scoped widget error was invisible to CI",
+        "One clock is read per request in one file, and every window, delay and expiry on the page is measured from it",
+        "The whole page reads the domain once through a per-request snapshot rather than each widget resolving the same queries",
+        "Neither header action carries a visible guard, because Filament re-evaluates one against a freshly hydrated record and a guard would make the domain's own refusal unreachable",
+        "No contact reference and no subject reference appears on any listing, and a redacted one renders as a fact rather than as a blank",
+        "There is no create, edit or delete control anywhere: an abandonment is a statement about a moment that has passed, and a campaign is changed by defining it again",
+        "Every condition field and every comparison is a select over a domain enum, so a field the module does not publish cannot be entered from this panel at all",
+        "A campaign whose stored conditions are malformed renders the refusal an attempt would receive, rather than raising on the screen",
+        "Nothing in this package writes through Eloquent: every write is a published domain action taking the tenant as its first argument",
+        "Every custody check is keyed on the row rather than on a reference two merchants can both hold",
+        "Another merchant's abandonment or campaign and one that does not exist raise the same exception on every screen",
+        "Every count over a restated relation is asserted at its right non-zero value, because a guarded restatement that reports zero looks exactly like isolation working",
+        "This panel offers neither the cross-tenant export nor the cross-tenant erasure, because a screen scoped to one merchant must not carry a control that spans every merchant",
+        "There is no control that records an outcome, because an outcome is an observation and a panel button is not one",
+        "There is no control that records an abandonment, because deciding a checkout was abandoned belongs to whatever owns the checkout"
+    ]
+}
